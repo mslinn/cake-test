@@ -15,7 +15,7 @@ trait SimpleBalanceComponent extends BalanceComponent {
 
   override def balance(amount: Double, currency: Currency, asOf: Date) = (amount, currency, asOf)
 
-  override def inBaseCurrency(b: Balance) =
+  override def inBaseCurrency(b: Balance): (Double, Currency, Date) =
     (b._1 * baseCurrencyFactor.get(b._2).get, baseCurrency, b._3)
 }
 

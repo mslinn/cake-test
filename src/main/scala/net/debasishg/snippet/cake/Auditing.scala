@@ -5,7 +5,7 @@ trait Auditing extends Portfolio {
   val bal: semantics.bal.type  // path dependent type
   import bal._                 // path dependent type method: bal.inBaseCurrency
 
-  override def currentPortfolio(account: Account) = {
+  override def currentPortfolio(account: Account): List[Balance] = {
     semantics.currentPortfolio(account) map inBaseCurrency
   }
 }
