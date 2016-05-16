@@ -1,6 +1,7 @@
 package net.debasishg.snippet.cake
 
 import java.util.Date
+import scala.language.implicitConversions
 
 trait BalanceComponent {
   type Balance
@@ -24,7 +25,9 @@ trait SimpleBalanceComponent extends BalanceComponent {
 trait CustomBalanceComponent extends BalanceComponent {
   type Balance = BalanceRep
 
-  case class BalanceRep(amount: Double, currency: Currency, asOf: Date)
+  case class BalanceRep(amount: Double, currency: Currency, asOf: Date) {
+    override def toString = s"BalanceRep amount: $amount in $currency on $asOf"
+  }
 
   override def balance(amount: Double, currency: Currency, asOf: Date) =
     BalanceRep(amount, currency, asOf)
