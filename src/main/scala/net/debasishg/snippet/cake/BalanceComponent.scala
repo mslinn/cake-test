@@ -10,15 +10,17 @@ trait BalanceComponent {
   def inBaseCurrency(b: Balance): Balance
 }
 
+/** Define Balance type as a Tuple3[Double, Currency, Date] */
 trait SimpleBalanceComponent extends BalanceComponent {
   type Balance = (Double, Currency, Date)
 
   override def balance(amount: Double, currency: Currency, asOf: Date) = (amount, currency, asOf)
 
   override def inBaseCurrency(b: Balance): (Double, Currency, Date) =
-    (b._1 * baseCurrencyFactor.get(b._2).get, baseCurrency, b._3)
+    (b._1 * baseCurrencyFactor(b._2), baseCurrency, b._3)
 }
 
+/** Define Balance type as a case class */
 trait CustomBalanceComponent extends BalanceComponent {
   type Balance = BalanceRep
 
@@ -28,5 +30,5 @@ trait CustomBalanceComponent extends BalanceComponent {
     BalanceRep(amount, currency, asOf)
 
   override def inBaseCurrency(b: Balance) =
-    BalanceRep(b.amount * baseCurrencyFactor.get(b.currency).get, baseCurrency, b.asOf)
+    BalanceRep(b.amount * baseCurrencyFactor(b.currency), baseCurrency, b.asOf)
 }

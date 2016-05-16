@@ -2,12 +2,11 @@ package net.debasishg.snippet.cake
 
 trait Auditing extends Portfolio {
   val semantics: Portfolio     // abstract value (no value assigned)
-  val bal: semantics.bal.type  // path dependent type
-  import bal._                 // path dependent type method: bal.inBaseCurrency
+  val bal: semantics.bal.type  // abstract path dependent type forwarded from superclass
+  import bal._                 // import path dependent type (bal.Balance) and method (bal.inBaseCurrency)
 
-  override def currentPortfolio(account: Account): List[Balance] = {
+  override def currentPortfolio(account: Account): List[Balance] =
     semantics.currentPortfolio(account) map inBaseCurrency
-  }
 }
 
 object ClientPortfolioAuditService1 extends Auditing {
